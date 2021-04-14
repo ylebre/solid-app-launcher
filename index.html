@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+	<head>
+		<script defer src="js/vendor/simplyedit/simply-edit.js"></script>
+		<script defer src="js/vendor/simplyedit/simply.everything.js"></script>
+		<script defer src="js/vendor/solid/solid-auth-fetcher.bundle.js"></script>
+		<script defer src="js/vendor/pdsinterop/solid-acl-parser.bundle.js"></script>
+		<script defer src="js/vendor/pdsinterop/solid-typeindex-parser.bundle.js"></script>
+		<script defer src="js/launcher.js"></script>
+		<link rel="stylesheet" href="css/solid-applauncher.css">
+		<title>Solid App Launcher</title>
+		<meta charset="utf-8">
+	</head>
+<body>
+	<main class="solid-container solid-launcher">
+		<h1>Solid App Launcher</h1>
+		<div data-simply-field="page" data-simply-content="template">
+			<template data-simply-template="Login">
+				<div class="field">
+					<label>
+						OIDC issuer
+						<input type="text" data-simply-field="issuer" value="https://solid-nextcloud.muze.nl/">
+					</label>
+				</div>
+				<div class="field">
+					<label>
+						Web ID
+						<input type="text" data-simply-field="webId" value="https://solid-nextcloud.muze.nl/apps/solid/@yvo/profile/card#me">
+					</label>
+				</div>
+				<div class="field">
+					<label>
+						Storage URL
+						<input type="text" data-simply-field="storageUrl" value="https://solid-nextcloud.muze.nl/apps/solid/@yvo/storage/">
+					</label>
+				</div>
+				<button data-simply-command="connect">Connect</button>
+			</template>
+			<template data-simply-template="Launcher">
+				<button data-simply-command="logout">Logout</button>
+				<ul data-simply-list="apps" class="solid-apps">
+					<template>
+						<li class="solid-app">
+							<h2><span data-simply-field="name"></span> <span data-simply-field="registered" data-simply-transformer="registered"></span></h2>
+							<p data-simply-field="tagline"></p>
+							<h3><span data-simply-field="name"></span> needs the following access to your Pod:</h3>
+							<div data-simply-list="requirements">
+								<template>
+									<div class="solid-permissions" data-simply-field="type" data-simply-content="template">
+										<template data-simply-template="podWide">
+											Permissions on <strong>all data</strong> in your Pod:
+											<ul data-simply-list="permissions" data-simply-entry="entry">
+												<template>
+													<li class="solid-acl"><span data-simply-field="entry" data-simply-transformer="grants"> all data in your Pod</li>
+												</template>
+											</ul>
+										</template>
+										<template data-simply-template="container">
+											Permissions in the folder <code x-data-simply-field="container"></code> in your Pod:
+											<ul data-simply-list="permissions" data-simply-entry="entry">
+												<template>
+													<li class="solid-acl"><span data-simply-field="entry" data-simply-transformer="grants"></li>
+												</template>
+											</ul>
+										</template>
+										<template data-simply-template="class">
+											Permissions on <span x-data-simply-field="class" data-simply-transformer="schemaClass"></span> in your Pod:
+											<ul data-simply-list="permissions" data-simply-entry="entry">
+												<template>
+													<li class="solid-acl"><span data-simply-field="entry" data-simply-transformer="grants"></li>
+												</template>
+											</ul>
+										</template>
+									</div>
+								</template>
+							</div>
+							<div data-simply-field="registered" data-simply-content="template" data-simply-default-value="0">
+								<template data-simply-template="0">
+									<button
+											data-simply-command="allowAndLaunch"
+											data-simply-field="launchUrl" 
+											data-simply-content="attributes" 
+											data-simply-attributes="data-solid-url"
+										>Allow and Launch</button>
+								</template>
+								<template data-simply-template="1">
+									<button
+										data-simply-command="launch"
+										data-simply-field="launchUrl" 
+										data-simply-content="attributes" 
+										data-simply-attributes="data-solid-url"
+									>Launch</button>
+								</template>
+							</div>
+						</li>
+					</template>
+				</ul>
+			</template>
+		</div>
+	</main>
+</body>
+</html>
